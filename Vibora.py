@@ -1,7 +1,18 @@
+# Juego de la Víbora basado en la colección de FreeGames
+# donde se hicieron modificaciones para una mejor experiencia
+# de juego.
+# Autores: Regina Luna, A01655821
+#          Diego Samperio, A01662935
+#          Abigail Curiel, A01655892
+# Fecha: 23/03/2023
+
+# Se importan las librerías que se utilizarán.
 from turtle import *
 from random import randrange, choice
 from freegames import square, vector
 
+# Se establecen los cinco colores diferentes para colorear
+# a la serpiente y la comida, sin incluir el rojo.
 colors = ['blue', 'green', 'yellow', 'purple', 'orange']
 
 # Asignar colores aleatorios a la serpiente y la comida
@@ -14,17 +25,29 @@ food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(20, -20)
 
+# Función que cambia la dirección de la serpiente.
+# Toma como parámetro las coordenadas x y y a las que
+# se moverá la serpiente.
+# No hay valor de retorno.
 def change(x, y):
-    "Change snake direction."
     aim.x = x
     aim.y = y
 
+# Función que evalúa si la cabeza está dentro de los
+# límites.
+# Toma como parámetro la cabeza.
+# Regresa Verdadero si la cabeza está dentro de los 
+# límites. En caso contrario regresa Falso.
 def inside(head):
-    "Return True if head inside boundaries."
     return -200 < head.x < 190 and -200 < head.y < 190
 
+# Función que mueve a la serpiente hacia delante por
+# un segmento.
+# No toma parámetros.
+# Regresa un return vacío si la cabeza está no está
+# dentro de los límites o si la cabeza está en la
+# serpiente para romper la función.
 def move():
-    "Move snake forward one segment."
     head = snake[-1].copy()
     head.move(aim)
 
@@ -37,12 +60,6 @@ def move():
 
     if head == food:
         print('Snake:', len(snake))
-        if len(colors) > 0:
-            # Asignar nuevos colores aleatorios a la serpiente y la comida
-            global snake_color, food_color
-            snake_color = food_color
-            food_color = choice(colors)
-            colors.remove(food_color)
         food.x = randrange(-15, 15) * 10
         food.y = randrange(-15, 15) * 10
     else:
@@ -51,19 +68,19 @@ def move():
     clear()
 
     for body in snake:
+        # Se guarda ahora el color actualizado de la serpiente.
         square(body.x, body.y, 9, snake_color)
 
-    # Actualizar la posición de la comida aleatoriamente
-    while True:
-        new_food = food.copy()
-        new_food.x += randrange(-1, 2, 1) * 10
-        new_food.y += randrange(-1, 2, 1) * 10
-        if inside(new_food):
-            food.x, food.y = new_food.x, new_food.y
-            break
-
+    # Se guarda ahora el color actualizado de la comida.
     square(food.x, food.y, 9, food_color)
     update()
+
+    # Actualizar la posición de la comida aleatoriamente
+    if randrange(10) == 0:
+        food.x += 10
+    elif randrange (10) == 1:
+        food.y += 10
+
     ontimer(move, 200)
 
 setup(420, 420, 370, 0)
