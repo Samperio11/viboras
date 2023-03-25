@@ -78,8 +78,16 @@ def move():
     # Actualizar la posición de la comida aleatoriamente
     if randrange(10) == 0:
         food.x += 10
+        if food.x < -200:
+            food.x = -190
+        elif food.x > 190:
+            food.x = 180
     elif randrange (10) == 1:
         food.y += 10
+        if food.y < -200:
+            food.y = -190
+        elif food.y > 190:
+            food.y = 180
 
     ontimer(move, 200)
 
